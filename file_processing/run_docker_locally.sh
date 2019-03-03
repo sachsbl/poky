@@ -1,8 +1,11 @@
+# Run this file to test your Docker container locally.  You will need to build the image first (see build_docker.sh)
+
 #!/usr/bin/env bash
 
 # source config file
-. ../aws.config
+. aws_credentials.config
 
+# params can be overridden here via ENV variables.  This is the method used for passing the parameters to the task.
 docker run \
     -e SOURCE_BUCKET='test-poky-input' \
     -e SOURCE_KEY='test_file.txt' \

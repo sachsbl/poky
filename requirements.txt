@@ -1,0 +1,4 @@
+# requirements of Poky, but not the Fargate task
+
+zappa
+boto3
