@@ -107,4 +107,4 @@ venv.bak/
 *.config
 
 # PyCharm
-.idea
+.idea/
