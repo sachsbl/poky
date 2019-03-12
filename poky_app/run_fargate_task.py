@@ -4,11 +4,11 @@ import pprint
 
 import boto3
 
-from config.poky_config import ECSConfig
+from poky_app.config.poky_app_config import ECSConfig
 
 
 # AWS credentials are assumed to be present on local system
-def run_fargate_task(source_bucket: str, source_key: str, destination_bucket: str) -> dict:
+def run_fargate_task(source_bucket: str, source_key: str, output_bucket: str) -> dict:
     client = boto3.client('ecs')
     response = client.run_task(
         cluster=ECSConfig.cluster,
@@ -37,8 +37,8 @@ def run_fargate_task(source_bucket: str, source_key: str, destination_bucket: st
                             'value': source_key
                         },
                         {
-                            'name': 'DESTINATION_BUCKET',
-                            'value': destination_bucket
+                            'name': 'OUTPUT_BUCKET',
+                            'value': output_bucket
                         },
                     ],
                 },
@@ -50,6 +50,9 @@ def run_fargate_task(source_bucket: str, source_key: str, destination_bucket: st
     return response
 
 
-result = run_fargate_task(source_bucket='test-poky-input', source_key='test_file.txt',
-                          destination_bucket='test-poky-output')
-pprint.pprint(result)
+if __name__ == "__main__":
+    from poky_app.config.poky_app_config import S3Config
+
+    result = run_fargate_task(source_bucket=S3Config.input_bucket, source_key=S3Config.test_file,
+                              output_bucket=S3Config.output_bucket)
+    pprint.pprint(result)

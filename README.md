@@ -11,7 +11,7 @@ Goals
 -----
 Minimalist application for running 'poky' tasks that process things using parameters.  
 Can be run on-demand, with no charges incurred when not actually processing something.  
-Provides a simple REST API to initiate processing and provide parameters.
+Provides a simple, testable REST API to initiate processing and provide parameters.
 
 Fargate FAQ:
 https://aws.amazon.com/fargate/faqs/
@@ -58,9 +58,33 @@ Tests
 -----
 Automated tests can used to verify functionality of the example app.  Valid AWS dependencies required. 
 These can be run with PyTest, which may need to be installed separately.  
+
+Make sure the project's directory is part of your PYTHONPATH:
+
+``` export PYTHONPATH="${PYTHONPATH}:/path/to/poky"```
+
 Run the following from the root directory to run all tests:
 
 ```pytest test```
+
+Setup and Deployment
+-----
+1.  Download the Poky Repo.
+2.  Install requirements using pip install -r requirements.txt.  Install requirements_test.txt also if you want to run
+the automated tests.
+3.  Make sure you have AWS CLI installed and AWS credentials configured.
+(https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+4.  Using the AWS Fargate "Get Started" tutorial and the examples in the file_processing folder, 
+setup the simple Fargate task.  
+5.  Create two buckets for testing.  Make sure your IAM role has full access to these (see blog post).
+6.  Configure your S3 buckets and ECS values created above steps in config/poky_config.ini
+7.  Run the automated tests to ensure everything is working.
+8.  Test the running of the Fargate task with run_fargate_task.py.  This requires an aws_credentials.config file in the 
+file_processing folder.
+9.  Deploy the Flask REST app in poky_app.app.  See Flask Github/Tutorial (https://github.com/pallets/flask).
+10. If desired, test REST app locally using Postman or similar.
+11. Setup Zappa and deploy Zappa app.  See https://github.com/Miserlou/Zappa
+12. Create a Policy in AWS IAM that allows ecs:RunTask and iam:PassRole and attach it to the Zappa-created IAM role
 
 
 Tips
@@ -73,3 +97,8 @@ A few oddities not covered:
 the time!
 2.  Consider hosting your container in AWS ECR, as I saw issues with pulling from DockerHub
 
+
+Issues:
+-----
+1.  Currently depends on Python 3.7 compliant Zappa from https://github.com/purificant/Zappa.git@py37
+2.  Needs automated method for adding IAM roles
