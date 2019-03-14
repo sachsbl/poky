@@ -1,4 +1,5 @@
-# Run this file to test your Docker container locally.  You will need to build the image first (see build_docker.sh)
+# Run this file to test your Docker container locally.
+# You will need to build the image first (see build_and_push_docker.sh)
 
 #!/usr/bin/env bash
 
