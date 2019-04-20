@@ -100,5 +100,4 @@ the time!
 
 Issues:
 -----
-1.  Currently depends on Python 3.7 compliant Zappa from https://github.com/purificant/Zappa.git@py37
-2.  Needs automated method for adding IAM roles
+1.  Needs automated method for adding IAM roles
